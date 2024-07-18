@@ -1,0 +1,75 @@
+using System;
+using System.Collections.Generic;
+
+public class Angajat
+{
+    public string name { get; set; }
+    public int vechime { get; set; }
+
+    public virtual decimal CalculeazaSalariul()
+    {
+        int salariulMinim = 10000;
+        return salariulMinim;
+    }
+}
+
+public class Manager : Angajat
+{
+    public int experienta { get; set; }
+
+    public override decimal CalculeazaSalariul()
+    {
+        decimal salariulMinim = base.CalculeazaSalariul();
+        return salariulMinim + (salariulMinim * experienta * 30 / 100);
+    }
+}
+
+public class Programator : Angajat
+{
+    public List<string> limbajeCunoscute { get; set; } = new List<string>();
+
+    public override decimal CalculeazaSalariul()
+    {
+        decimal salariu = 10000;
+
+        foreach (string s in limbajeCunoscute)
+        {
+            if (s.Equals("C#"))
+            {
+                salariu += salariu * 4;
+            }
+            else
+            {
+                salariu += salariu * 0.5m;
+            }
+        }
+        return salariu;
+    }
+}
+
+public class Contabil : Angajat
+{
+    public int experienta { get; set; }
+
+    public override decimal CalculeazaSalariul()
+    {
+        decimal salariulMinim = base.CalculeazaSalariul();
+        return salariulMinim + (salariulMinim * experienta * 20 / 100);
+    }
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        
+        Manager manager = new Manager { name = "John Doe", vechime = 5, experienta = 5 };
+        Programator programator = new Programator { name = "Jane Smith", vechime = 3, limbajeCunoscute = new List<string> { "C#", "Java" } };
+        Contabil contabil = new Contabil { name = "Alice Brown", vechime = 7, experienta = 7 };
+
+        
+        Console.WriteLine($"{manager.name}'s salary: {manager.CalculeazaSalariul()}");
+        Console.WriteLine($"{programator.name}'s salary: {programator.CalculeazaSalariul()}");
+        Console.WriteLine($"{contabil.name}'s salary: {contabil.CalculeazaSalariul()}");
+    }
+}
